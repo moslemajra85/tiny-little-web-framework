@@ -1,4 +1,24 @@
+ # Dependency directories
 node_modules/
-dist/
+
+# Parcel cache (https://parceljs.org/cache.html)
 .cache/
+
+# TypeScript build directory
+dist/
+
+# Editor directories
+.vscode/
+.idea/
+
+# Parcel-generated files
+*.cache/
+*.log
+*.pid
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# json-server file
 db.json

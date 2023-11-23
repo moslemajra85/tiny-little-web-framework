@@ -14,7 +14,7 @@ export class Eventing {
       : (this.events[eventName] = [callback]);
   };
 
-  tigger = (eventName: string) => {
+  trigger = (eventName: string) => {
     const handlers = this.events[eventName];
 
     if (!handlers || handlers.length === 0) {
