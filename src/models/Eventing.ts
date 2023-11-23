@@ -23,4 +23,8 @@ export class Eventing {
 
     handlers.forEach((callback) => callback());
   };
+
+  off = (eventName: string) => {
+    delete this.events[eventName];
+  };
 }
