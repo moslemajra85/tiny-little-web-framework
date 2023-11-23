@@ -127,23 +127,24 @@ exports.Eventing = void 0;
 // This class is responsible for handling events
 var Eventing = /** @class */function () {
   function Eventing() {
+    var _this = this;
     this.events = {};
+    this.on = function (eventName, callback) {
+      // const handlers = this.events[eventName] || [];
+      // handlers.push(callback);
+      // this.events[eventName] = handlers;
+      _this.events[eventName] ? _this.events[eventName].push(callback) : _this.events[eventName] = [callback];
+    };
+    this.tigger = function (eventName) {
+      var handlers = _this.events[eventName];
+      if (!handlers || handlers.length === 0) {
+        return;
+      }
+      handlers.forEach(function (callback) {
+        return callback();
+      });
+    };
   }
-  Eventing.prototype.on = function (eventName, callback) {
-    // const handlers = this.events[eventName] || [];
-    // handlers.push(callback);
-    // this.events[eventName] = handlers;
-    this.events[eventName] ? this.events[eventName].push(callback) : this.events[eventName] = [callback];
-  };
-  Eventing.prototype.tigger = function (eventName) {
-    var handlers = this.events[eventName];
-    if (!handlers || handlers.length === 0) {
-      return;
-    }
-    handlers.forEach(function (callback) {
-      return callback();
-    });
-  };
   return Eventing;
 }();
 exports.Eventing = Eventing;
@@ -5517,11 +5518,12 @@ exports.Attributes = void 0;
 // Note attribute should not have any reference to other classes
 var Attributes = /** @class */function () {
   function Attributes(data) {
+    var _this = this;
     this.data = data;
+    this.get = function (key) {
+      return _this.data[key];
+    };
   }
-  Attributes.prototype.get = function (key) {
-    return this.data[key];
-  };
   Attributes.prototype.set = function (update) {
     Object.assign(this.data, update);
   };
@@ -5544,6 +5546,30 @@ var User = /** @class */function () {
     this.sync = new Sync_1.Sync('http://localhost:3000/users');
     this.attributes = new Attributes_1.Attributes(attrs);
   }
+  Object.defineProperty(User.prototype, "on", {
+    get: function get() {
+      // return a reference to the on method from Eventing calss
+      return this.events.on;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "trigger", {
+    get: function get() {
+      // return a reference to the trigger method from Eventing calss
+      return this.events.tigger;
+    },
+    enumerable: false,
+    configurable: true
+  });
+  Object.defineProperty(User.prototype, "get", {
+    get: function get() {
+      // return a reference to the get method from Attributes calss
+      return this.attributes.get;
+    },
+    enumerable: false,
+    configurable: true
+  });
   return User;
 }();
 exports.User = User;
@@ -5555,11 +5581,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 var User_1 = require("./models/User");
 var user = new User_1.User({
-  name: "newname",
+  name: 'newname',
   age: 0
 });
-user.attributes.get("name");
-user.attributes.get("age");
+console.log(user.get('name'));
+user.on("change", function () {
+  console.log("User changed");
+});
+user.trigger("change");
 },{"./models/User":"src/models/User.ts"}],"../../.nvm/versions/node/v18.12.1/lib/node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';

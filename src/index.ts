@@ -1,7 +1,11 @@
- import { User } from "./models/User"; 
+import { User } from './models/User';
 
- const user = new User({name: "newname", age: 0})
+const user = new User({ name: 'newname', age: 0 });
 
- user.attributes.get("name")
- user.attributes.get("age")
- 
+console.log(user.get('name'));
+user.on("change", () => {
+  console.log("User changed");
+})
+
+
+user.trigger("change")

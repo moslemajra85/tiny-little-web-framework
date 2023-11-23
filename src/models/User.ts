@@ -19,4 +19,19 @@ export class User {
   constructor(attrs: UserProps) {
     this.attributes = new Attributes<UserProps>(attrs);
   }
+
+  get on() {
+    // return a reference to the on method from Eventing calss
+    return this.events.on;
+  }
+
+  get trigger() {
+    // return a reference to the trigger method from Eventing calss
+    return this.events.tigger;
+  }
+
+  get get() {
+    // return a reference to the get method from Attributes calss
+    return this.attributes.get;
+  }
 }
